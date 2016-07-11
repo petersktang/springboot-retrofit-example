@@ -5,8 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
-import retrofit.Call;
-import retrofit.Response;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import java.io.IOException;
 
@@ -24,7 +24,7 @@ public class Controller {
     public ResponseEntity randomNumber() throws IOException {
         Call<RandomNumberResponse> call = randomNumberService.getRandomNumbers(5);
         Response<RandomNumberResponse> response = call.execute();
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             return ResponseEntity.ok(response.body());
         } else {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(response.raw().toString());
@@ -35,7 +35,7 @@ public class Controller {
     public ResponseEntity bar() throws IOException {
         Call<InvalidRandomNumberResponse> call = randomNumberService.getInvalidRandomNumbers(5);
         Response<InvalidRandomNumberResponse> response = call.execute();
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             return ResponseEntity.ok(response.body());
         } else {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(response.raw().toString());
@@ -45,7 +45,7 @@ public class Controller {
     @RequestMapping(value = "/foo", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity foo() throws IOException {
         Response<RandomNumberResponse> response = randomNumberService.getFoo().execute();
-        if (response.isSuccess()) {
+        if (response.isSuccessful()) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(response.raw().toString());
